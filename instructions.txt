@@ -1,0 +1,58 @@
+
+
+* In some projects/organizations, there can be multiple Ingress Controllers like Nginx, AWS Load Balancer etc..
+
+* Ingress resources in the k8s cluster need to be identified by those Ingress Controller. For that, we can provide  "ingressClassName" in each ingress resource. "ingressClassName" is used to identify the ingress resource by the Ingress controller. If we don't mention the Ingress Controller's name in the ingress resource("ingressClassName"), the Ingress Controller will not watch that ingress resource.
+
+* Both NodePort and LoadBalancer are types of services in Kubernetes that expose your applications to external traffic, but they do so in different ways. 
+
+* The Ingress controller will watch the ingress resource. And it will create a load balancer as per the ingress configuration.
+
+* Ingress Controller is usually a go program that is written by a load balancer company like Nginx, AWS, Azure
+
+*Installing Nginx Ingress controller:
+	kubectl create namespace ingress-nginx
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+	kubectl get pods -n ingress-nginx
+
+
+########## Helm ###########
+
+1) mkdir helm
+2) cd helm
+3) helm create go-web-app-chart
+
+* It will be created 2 folders and 3 file
+	i) Chart.yml: This will basically provide information about charts. It has been included metadata
+	ii)template: This is a directory
+	ii)values.yml 
+
+4) cd go-web-app-chart
+5) cd templeate
+6) rm -rf * (This is used to remove everything in the template directory.)
+7) cp ../../../k8s/manifests/* . (This command is used to copy everything in the k8s/manifests directory. Also the last "." is indicated this location, I mean /template .) 
+8) modify the the image name of the deployment.yml (image: sachinayeshmantha/go-web-app:{{ .Values.image.tag }})
+9) modify the values.yml file
+
+
+Ok now we can install everything through "helm". So lets delete all resources and reinstall through helm
+
+1) kubectl get all
+2) kubectl delete deploy go-web-app-deployment
+3)  kubectl delete svc go-web-app-service
+4)  kubectl delete ing go-web-app-ingress
+5) helm install go-web-app helm/go-web-app-chart (if you are using linode k8s cluster, make sure that you are in the same directory which  
+ linode kubeconfig.yml has been initialized)
+6) helm uninstall go-web-app
+
+
+####### CI/CD #########
+
+
+* When we implement CI/CD, we will update the image tag of the values.yml dynamically with the latest image that we create in CI.
+
+* Using ArgoCD, the latest image with the latest tag will be automatically deployed. 
+
+* The docker image will be maped with developer commit. Evertime a developer makes a commit,the docker image will have a new tag and that new tag will be updated in helm values.yml. (Evertime a developer makes a commit, helm is automatically updated the values.yml)
+
+* When comes to CD, we are gonna use Argocd. Argocd will watch the helm chart and whenever the values.yml updated it will pull the helm chart. And Argocd will install it on the k8s cluster.
