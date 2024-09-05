@@ -85,7 +85,7 @@ jobs:
 
     - name: Update tag in Helm chart
       run: |
-        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/go-web-app-chart/values.yaml
+        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/my-go-web-app-chart/values.yaml
       # this sed commnad first will  go to helm directory then will go to the values.yml, after it will update anything that is in the tag.
       # It will substitute the tag with github run id
     
@@ -94,6 +94,6 @@ jobs:
       run: |
         git config --global user.email "sachinayeshmantha@gmail.com"
         git config --global user.name "Sachin20010517"
-        git add helm/go-web-app-chart/values.yaml
+        git add helm/my-go-web-app-chart/values.yaml
         git commit -m "Update tag in Helm chart"
         git push      
