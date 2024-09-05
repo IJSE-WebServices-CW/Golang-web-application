@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-web-app-deployment
+  labels:
+    app: go-web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-web-app
+  template:
+    metadata:
+      labels:
+        app: go-web-app
+    spec:
+      containers:
+      - name: go-web-app
+        image: sachinayeshmantha/tharani-ijse-go-web-app:{{ .Values.image.tag }}
+        #{{ .Values.image.tag }} :- This will indicate that the helm whenever is executed, it will look for the values.yml file
+        ports:
+        - containerPort: 8080
