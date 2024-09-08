@@ -92,8 +92,8 @@ jobs:
       # Once values.yml is updated by using sed command , we have to push the commit again to our  same repository    
     - name: Commit and push changes
       run: |
-        git config --global user.email "sachinayeshmantha@gmail.com"
-        git config --global user.name "Sachin20010517"
+        git config --global user.email "tharaniharshika1@gmail.com"
+        git config --global user.name "Tharni98"
         git add helm/my-go-web-app-chart/values.yaml
         git commit -m "Update tag in Helm chart"
         git push      
