@@ -8,7 +8,7 @@ image:
   repository: sachinayeshmantha/tharani-ijse-go-web-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "10756468575"
+  tag: "10859906812"
 
 imagePullSecrets: []
 nameOverride: ""
