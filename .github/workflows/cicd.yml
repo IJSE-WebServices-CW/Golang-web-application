@@ -67,7 +67,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/tharani-ijse-go-web-app:${{github.run_id}}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ijse-k8s-app-deployment:${{github.run_id}}
         # Whenever a developer make a commit, the tag  of docker image will create with new run id
 
   update-newtag-in-helm-chart:
