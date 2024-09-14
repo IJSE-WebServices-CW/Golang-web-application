@@ -15,7 +15,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /ijse-go-web-app
 
 RUN  chmod +x /ijse-go-web-app
 
-# Final stage (Distroless)
+# Final stage (Distroless)h
 FROM gcr.io/distroless/static-debian11
 
 COPY --from=base /ijse-go-web-app /
